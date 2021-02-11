@@ -33,7 +33,6 @@ while True:
 			kadal = 1
 
 	if kadal==1:
-		ser.write(('AT+CMGS="+6281226926138"\r').encode())
 		msg = ("HI RARA AKU MODEM") 
 		print ("Sending SMS with status info:")
 		time.sleep(3)
@@ -46,14 +45,23 @@ while True:
 			print(rec_buff.decode())
 			rec_buff = ''
 			print("message sent…")
+			kadal = 2
 			
-		# command_input = "Kadal"
-		# ser.write((command_input+  '\r\n' ).encode())
-		# time.sleep(0.1)
-		# if ser.inWaiting():
-		# 	time.sleep(0.01)
-		# 	rec_buff = ser.read(ser.inWaiting())
-		# if rec_buff != '':
-		# 	print(rec_buff.decode())
-		# 	rec_buff = ''
-	kadal = 2
+	if kadal==2:
+	    command_signal="AT+CSQ"
+	    time.sleep(3)
+	    print ("Signal info")
+	    hasil=ser.write((command_signal+ '\r\n').encode())
+	    time.sleep(0.1)
+	    if ser.inWaiting():
+	        time.sleep(0.01)
+	        rec_buff = ser.read(ser.inWaiting())
+	    if rec_buff != '':
+	        print(rec_buff.decode())
+	        rec_buff = ''
+	        kadal = 3
+	        
+	        
+    if kadal==3:
+        url="http://navier-development.azurewebsites.net/api/dronelist/drone/add-data"
+        
